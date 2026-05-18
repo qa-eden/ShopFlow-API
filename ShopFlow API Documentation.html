@@ -1,0 +1,793 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ShopFlow API — Documentation</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --ink: #0d0f12;
+    --ink-muted: #5a6070;
+    --ink-faint: #9aa0ae;
+    --surface: #ffffff;
+    --surface-alt: #f4f5f7;
+    --border: #e2e4e9;
+    --accent: #1a56e8;
+    --accent-soft: #eef2fd;
+    --green: #0d7a4e;
+    --green-soft: #e6f5ef;
+    --amber: #92500a;
+    --amber-soft: #fef3e2;
+    --red: #b91c1c;
+    --red-soft: #fef2f2;
+    --blue-soft: #eff6ff;
+    --blue: #1d4ed8;
+    --mono: 'DM Mono', monospace;
+    --sans: 'DM Sans', sans-serif;
+    --serif: 'DM Serif Display', serif;
+    --radius: 8px;
+    --sidebar: 260px;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: var(--sans);
+    font-size: 15px;
+    color: var(--ink);
+    background: var(--surface);
+    line-height: 1.7;
+    display: flex;
+    min-height: 100vh;
+  }
+
+  /* ── Sidebar ── */
+  aside {
+    width: var(--sidebar);
+    flex-shrink: 0;
+    position: fixed;
+    top: 0; left: 0; bottom: 0;
+    background: var(--ink);
+    color: #c8cdd8;
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+    padding-bottom: 2rem;
+  }
+
+  .sidebar-brand {
+    padding: 1.6rem 1.4rem 1.2rem;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+  }
+
+  .sidebar-brand .logo {
+    font-family: var(--serif);
+    font-size: 1.25rem;
+    color: #ffffff;
+    letter-spacing: -0.01em;
+  }
+
+  .sidebar-brand .tagline {
+    font-size: 11px;
+    color: #6b7280;
+    margin-top: 2px;
+    font-weight: 300;
+  }
+
+  .sidebar-badge {
+    display: inline-block;
+    background: var(--accent);
+    color: #fff;
+    font-size: 10px;
+    font-family: var(--mono);
+    padding: 1px 6px;
+    border-radius: 3px;
+    margin-top: 6px;
+    letter-spacing: 0.05em;
+  }
+
+  .nav-section {
+    padding: 1.2rem 1.4rem 0.4rem;
+  }
+
+  .nav-label {
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #4b5563;
+    margin-bottom: 0.5rem;
+  }
+
+  .nav-link {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 5px 8px;
+    border-radius: 5px;
+    color: #9ca3af;
+    text-decoration: none;
+    font-size: 13.5px;
+    font-weight: 400;
+    transition: color 0.15s, background 0.15s;
+    margin-bottom: 1px;
+  }
+
+  .nav-link:hover, .nav-link.active {
+    color: #ffffff;
+    background: rgba(255,255,255,0.06);
+  }
+
+  .method-dot {
+    width: 7px; height: 7px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+  .dot-get { background: #22c55e; }
+  .dot-post { background: #3b82f6; }
+  .dot-patch { background: #f59e0b; }
+  .dot-delete { background: #ef4444; }
+
+  /* ── Main ── */
+  main {
+    margin-left: var(--sidebar);
+    flex: 1;
+    max-width: 820px;
+    padding: 3rem 3rem 6rem;
+  }
+
+  /* ── Hero ── */
+  .hero {
+    padding-bottom: 2.5rem;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 3rem;
+  }
+
+  .hero h1 {
+    font-family: var(--serif);
+    font-size: 2.6rem;
+    color: var(--ink);
+    line-height: 1.15;
+    letter-spacing: -0.02em;
+    margin-bottom: 0.75rem;
+  }
+
+  .hero p {
+    font-size: 16px;
+    color: var(--ink-muted);
+    max-width: 560px;
+    font-weight: 300;
+  }
+
+  .meta-row {
+    display: flex;
+    gap: 1.2rem;
+    margin-top: 1.2rem;
+    flex-wrap: wrap;
+  }
+
+  .meta-chip {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12.5px;
+    color: var(--ink-muted);
+    background: var(--surface-alt);
+    border: 1px solid var(--border);
+    padding: 3px 10px;
+    border-radius: 20px;
+  }
+
+  .base-url-box {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: var(--ink);
+    color: #e2e8f0;
+    padding: 0.75rem 1.2rem;
+    border-radius: var(--radius);
+    margin-top: 1.4rem;
+    font-family: var(--mono);
+    font-size: 13.5px;
+  }
+
+  .base-url-box .label {
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #6b7280;
+    font-family: var(--sans);
+  }
+
+  /* ── Section ── */
+  section { margin-bottom: 3.5rem; }
+
+  h2 {
+    font-family: var(--serif);
+    font-size: 1.55rem;
+    color: var(--ink);
+    letter-spacing: -0.01em;
+    margin-bottom: 0.75rem;
+    scroll-margin-top: 1.5rem;
+  }
+
+  h3 {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--ink-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+    margin: 1.8rem 0 0.8rem;
+  }
+
+  p { color: var(--ink-muted); margin-bottom: 0.8rem; }
+
+  /* ── Endpoint Table ── */
+  .endpoint-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13.5px;
+    margin-bottom: 1rem;
+  }
+
+  .endpoint-table thead th {
+    text-align: left;
+    padding: 8px 12px;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .endpoint-table tbody tr {
+    border-bottom: 1px solid var(--border);
+    transition: background 0.1s;
+  }
+
+  .endpoint-table tbody tr:hover { background: var(--surface-alt); }
+  .endpoint-table tbody tr:last-child { border-bottom: none; }
+
+  .endpoint-table td {
+    padding: 10px 12px;
+    vertical-align: middle;
+  }
+
+  /* ── Method badges ── */
+  .badge {
+    display: inline-block;
+    font-family: var(--mono);
+    font-size: 11px;
+    font-weight: 500;
+    padding: 2px 7px;
+    border-radius: 4px;
+    letter-spacing: 0.04em;
+  }
+
+  .badge-GET    { background: var(--green-soft); color: var(--green); }
+  .badge-POST   { background: var(--blue-soft);  color: var(--blue);  }
+  .badge-PUT    { background: var(--amber-soft);  color: var(--amber); }
+  .badge-PATCH  { background: var(--amber-soft);  color: var(--amber); }
+  .badge-DELETE { background: var(--red-soft);   color: var(--red);   }
+
+  .path {
+    font-family: var(--mono);
+    font-size: 12.5px;
+    color: var(--ink);
+  }
+
+  .path em {
+    color: var(--accent);
+    font-style: normal;
+  }
+
+  /* ── Code blocks ── */
+  pre {
+    background: #0f1117;
+    color: #e2e8f0;
+    font-family: var(--mono);
+    font-size: 12.5px;
+    line-height: 1.65;
+    padding: 1.2rem 1.4rem;
+    border-radius: var(--radius);
+    overflow-x: auto;
+    margin: 0.8rem 0 1.2rem;
+    border: 1px solid rgba(255,255,255,0.06);
+  }
+
+  code {
+    font-family: var(--mono);
+    font-size: 12.5px;
+    background: var(--surface-alt);
+    border: 1px solid var(--border);
+    padding: 1px 5px;
+    border-radius: 3px;
+    color: var(--ink);
+  }
+
+  pre code {
+    background: none;
+    border: none;
+    padding: 0;
+    color: inherit;
+    font-size: inherit;
+  }
+
+  .string  { color: #86efac; }
+  .key     { color: #93c5fd; }
+  .number  { color: #fbbf24; }
+  .bool    { color: #f472b6; }
+  .comment { color: #4b5563; }
+
+  /* ── Data model table ── */
+  .model-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13.5px;
+    margin: 0.8rem 0 1.4rem;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    overflow: hidden;
+  }
+
+  .model-table thead th {
+    background: var(--surface-alt);
+    text-align: left;
+    padding: 8px 14px;
+    font-size: 11px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--ink-faint);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .model-table tbody td {
+    padding: 9px 14px;
+    border-bottom: 1px solid var(--border);
+    vertical-align: top;
+  }
+
+  .model-table tbody tr:last-child td { border-bottom: none; }
+  .model-table tbody tr:hover { background: var(--surface-alt); }
+
+  .type-pill {
+    font-family: var(--mono);
+    font-size: 11px;
+    background: var(--surface-alt);
+    border: 1px solid var(--border);
+    padding: 1px 6px;
+    border-radius: 3px;
+    color: var(--blue);
+  }
+
+  /* ── Status code table ── */
+  .status-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13.5px;
+    margin: 0.8rem 0;
+  }
+
+  .status-table td {
+    padding: 9px 12px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .status-code {
+    font-family: var(--mono);
+    font-weight: 500;
+    font-size: 13px;
+  }
+
+  /* ── Callout ── */
+  .callout {
+    background: var(--accent-soft);
+    border-left: 3px solid var(--accent);
+    padding: 0.9rem 1.2rem;
+    border-radius: 0 var(--radius) var(--radius) 0;
+    font-size: 13.5px;
+    color: var(--blue);
+    margin: 1rem 0;
+  }
+
+  /* ── Divider ── */
+  hr {
+    border: none;
+    border-top: 1px solid var(--border);
+    margin: 2.5rem 0;
+  }
+
+  /* ── Responsive ── */
+  @media (max-width: 768px) {
+    aside { display: none; }
+    main  { margin-left: 0; padding: 2rem 1.2rem 4rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Sidebar Navigation -->
+<aside>
+  <div class="sidebar-brand">
+    <div class="logo">ShopFlow API</div>
+    <div class="tagline">E-commerce REST API</div>
+    <div class="sidebar-badge">v1.0.0</div>
+  </div>
+
+  <div class="nav-section">
+    <div class="nav-label">Getting Started</div>
+    <a href="#overview" class="nav-link">Overview</a>
+    <a href="#setup" class="nav-link">Setup</a>
+    <a href="#models" class="nav-link">Data Models</a>
+  </div>
+
+  <div class="nav-section">
+    <div class="nav-label">Endpoints</div>
+    <a href="#users" class="nav-link"><span class="method-dot dot-get"></span> Users</a>
+    <a href="#categories" class="nav-link"><span class="method-dot dot-get"></span> Categories</a>
+    <a href="#products" class="nav-link"><span class="method-dot dot-get"></span> Products</a>
+    <a href="#orders" class="nav-link"><span class="method-dot dot-get"></span> Orders</a>
+    <a href="#reviews" class="nav-link"><span class="method-dot dot-get"></span> Reviews</a>
+    <a href="#carts" class="nav-link"><span class="method-dot dot-get"></span> Carts</a>
+    <a href="#coupons" class="nav-link"><span class="method-dot dot-get"></span> Coupons</a>
+  </div>
+
+  <div class="nav-section">
+    <div class="nav-label">Reference</div>
+    <a href="#querying" class="nav-link">Filtering & Sorting</a>
+    <a href="#status-codes" class="nav-link">HTTP Status Codes</a>
+    <a href="#examples" class="nav-link">Examples</a>
+  </div>
+</aside>
+
+<!-- Main Content -->
+<main>
+
+  <!-- Hero -->
+  <div class="hero" id="overview">
+    <h1>ShopFlow API</h1>
+    <p>A fully-featured RESTful API for an e-commerce platform. Browse products, manage orders, handle carts, and process reviews — all from a local json-server instance.</p>
+    <div class="meta-row">
+      <span class="meta-chip">&#x25CF; REST</span>
+      <span class="meta-chip">&#x25CB; JSON</span>
+      <span class="meta-chip">v1.0.0</span>
+      <span class="meta-chip">json-server</span>
+    </div>
+    <div class="base-url-box">
+      <span class="label">Base URL</span>
+      <span>http://localhost:3000/api</span>
+    </div>
+  </div>
+
+  <!-- Setup -->
+  <section id="setup">
+    <h2>Getting Started</h2>
+    <p>Install dependencies and start the server with two commands.</p>
+    <pre><code><span class="comment"># Install dependencies</span>
+npm install
+
+<span class="comment"># Start the API server (port 3000)</span>
+npm start
+
+<span class="comment"># Dev mode — adds 300ms simulated network delay</span>
+npm run dev</code></pre>
+    <div class="callout">
+      The API will be live at <strong>http://localhost:3000/api</strong> once the server starts.
+    </div>
+  </section>
+
+  <hr>
+
+  <!-- Data Models -->
+  <section id="models">
+    <h2>Data Models</h2>
+
+    <h3>User</h3>
+    <table class="model-table">
+      <thead><tr><th>Field</th><th>Type</th><th>Description</th></tr></thead>
+      <tbody>
+        <tr><td><code>id</code></td><td><span class="type-pill">integer</span></td><td>Unique identifier</td></tr>
+        <tr><td><code>name</code></td><td><span class="type-pill">string</span></td><td>Full name</td></tr>
+        <tr><td><code>email</code></td><td><span class="type-pill">string</span></td><td>Email address (unique)</td></tr>
+        <tr><td><code>phone</code></td><td><span class="type-pill">string</span></td><td>Contact number</td></tr>
+        <tr><td><code>role</code></td><td><span class="type-pill">string</span></td><td><code>customer</code> or <code>admin</code></td></tr>
+        <tr><td><code>address</code></td><td><span class="type-pill">object</span></td><td>Street, city, state, country, postalCode</td></tr>
+        <tr><td><code>createdAt</code></td><td><span class="type-pill">ISO 8601</span></td><td>Account creation timestamp</td></tr>
+      </tbody>
+    </table>
+
+    <h3>Product</h3>
+    <table class="model-table">
+      <thead><tr><th>Field</th><th>Type</th><th>Description</th></tr></thead>
+      <tbody>
+        <tr><td><code>id</code></td><td><span class="type-pill">integer</span></td><td>Unique identifier</td></tr>
+        <tr><td><code>name</code></td><td><span class="type-pill">string</span></td><td>Product name</td></tr>
+        <tr><td><code>slug</code></td><td><span class="type-pill">string</span></td><td>URL-friendly identifier</td></tr>
+        <tr><td><code>price</code></td><td><span class="type-pill">float</span></td><td>Selling price (USD)</td></tr>
+        <tr><td><code>comparePrice</code></td><td><span class="type-pill">float|null</span></td><td>Original price before discount</td></tr>
+        <tr><td><code>sku</code></td><td><span class="type-pill">string</span></td><td>Stock-keeping unit</td></tr>
+        <tr><td><code>categoryId</code></td><td><span class="type-pill">integer</span></td><td>FK → Category</td></tr>
+        <tr><td><code>stock</code></td><td><span class="type-pill">integer</span></td><td>Units in stock</td></tr>
+        <tr><td><code>rating</code></td><td><span class="type-pill">float</span></td><td>Average rating (1–5)</td></tr>
+        <tr><td><code>status</code></td><td><span class="type-pill">string</span></td><td><code>active</code> or <code>out_of_stock</code></td></tr>
+        <tr><td><code>tags</code></td><td><span class="type-pill">array</span></td><td>Searchable tag list</td></tr>
+      </tbody>
+    </table>
+
+    <h3>Order</h3>
+    <table class="model-table">
+      <thead><tr><th>Field</th><th>Type</th><th>Description</th></tr></thead>
+      <tbody>
+        <tr><td><code>id</code></td><td><span class="type-pill">integer</span></td><td>Unique identifier</td></tr>
+        <tr><td><code>orderNumber</code></td><td><span class="type-pill">string</span></td><td>Human-readable ref e.g. <code>SF-2024-0001</code></td></tr>
+        <tr><td><code>userId</code></td><td><span class="type-pill">integer</span></td><td>FK → User</td></tr>
+        <tr><td><code>status</code></td><td><span class="type-pill">string</span></td><td><code>pending</code> · <code>processing</code> · <code>shipped</code> · <code>delivered</code> · <code>cancelled</code></td></tr>
+        <tr><td><code>paymentStatus</code></td><td><span class="type-pill">string</span></td><td><code>paid</code> · <code>pending</code> · <code>failed</code></td></tr>
+        <tr><td><code>total</code></td><td><span class="type-pill">float</span></td><td>Grand total (subtotal + tax + shipping)</td></tr>
+        <tr><td><code>items</code></td><td><span class="type-pill">array</span></td><td>Line items with productId, quantity, unitPrice</td></tr>
+        <tr><td><code>shippingAddress</code></td><td><span class="type-pill">object</span></td><td>Delivery address snapshot</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <hr>
+
+  <!-- Users -->
+  <section id="users">
+    <h2>Users</h2>
+    <p>Manage customer and admin accounts.</p>
+    <table class="endpoint-table">
+      <thead><tr><th>Method</th><th>Path</th><th>Description</th></tr></thead>
+      <tbody>
+        <tr><td><span class="badge badge-GET">GET</span></td><td class="path">/api/users</td><td>List all users</td></tr>
+        <tr><td><span class="badge badge-GET">GET</span></td><td class="path">/api/users/<em>:id</em></td><td>Get a single user</td></tr>
+        <tr><td><span class="badge badge-POST">POST</span></td><td class="path">/api/users</td><td>Create a new user</td></tr>
+        <tr><td><span class="badge badge-PATCH">PATCH</span></td><td class="path">/api/users/<em>:id</em></td><td>Partially update a user</td></tr>
+        <tr><td><span class="badge badge-PUT">PUT</span></td><td class="path">/api/users/<em>:id</em></td><td>Replace a user record</td></tr>
+        <tr><td><span class="badge badge-DELETE">DELETE</span></td><td class="path">/api/users/<em>:id</em></td><td>Delete a user</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- Categories -->
+  <section id="categories">
+    <h2>Categories</h2>
+    <p>Product category management.</p>
+    <table class="endpoint-table">
+      <thead><tr><th>Method</th><th>Path</th><th>Description</th></tr></thead>
+      <tbody>
+        <tr><td><span class="badge badge-GET">GET</span></td><td class="path">/api/categories</td><td>List all categories</td></tr>
+        <tr><td><span class="badge badge-GET">GET</span></td><td class="path">/api/categories/<em>:id</em></td><td>Get a single category</td></tr>
+        <tr><td><span class="badge badge-POST">POST</span></td><td class="path">/api/categories</td><td>Create a category</td></tr>
+        <tr><td><span class="badge badge-PATCH">PATCH</span></td><td class="path">/api/categories/<em>:id</em></td><td>Partially update a category</td></tr>
+        <tr><td><span class="badge badge-DELETE">DELETE</span></td><td class="path">/api/categories/<em>:id</em></td><td>Delete a category</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- Products -->
+  <section id="products">
+    <h2>Products</h2>
+    <p>Full product catalog management, including category filtering and status queries.</p>
+    <table class="endpoint-table">
+      <thead><tr><th>Method</th><th>Path</th><th>Description</th></tr></thead>
+      <tbody>
+        <tr><td><span class="badge badge-GET">GET</span></td><td class="path">/api/products</td><td>List all products</td></tr>
+        <tr><td><span class="badge badge-GET">GET</span></td><td class="path">/api/products/<em>:id</em></td><td>Get a single product</td></tr>
+        <tr><td><span class="badge badge-GET">GET</span></td><td class="path">/api/v1/products/category/<em>:categoryId</em></td><td>Products by category</td></tr>
+        <tr><td><span class="badge badge-GET">GET</span></td><td class="path">/api/v1/products/status/<em>:status</em></td><td>Products by status</td></tr>
+        <tr><td><span class="badge badge-POST">POST</span></td><td class="path">/api/products</td><td>Create a product</td></tr>
+        <tr><td><span class="badge badge-PATCH">PATCH</span></td><td class="path">/api/products/<em>:id</em></td><td>Partially update a product</td></tr>
+        <tr><td><span class="badge badge-PUT">PUT</span></td><td class="path">/api/products/<em>:id</em></td><td>Replace a product</td></tr>
+        <tr><td><span class="badge badge-DELETE">DELETE</span></td><td class="path">/api/products/<em>:id</em></td><td>Delete a product</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- Orders -->
+  <section id="orders">
+    <h2>Orders</h2>
+    <p>Order lifecycle management from placement through delivery.</p>
+    <table class="endpoint-table">
+      <thead><tr><th>Method</th><th>Path</th><th>Description</th></tr></thead>
+      <tbody>
+        <tr><td><span class="badge badge-GET">GET</span></td><td class="path">/api/orders</td><td>List all orders</td></tr>
+        <tr><td><span class="badge badge-GET">GET</span></td><td class="path">/api/orders/<em>:id</em></td><td>Get a single order</td></tr>
+        <tr><td><span class="badge badge-GET">GET</span></td><td class="path">/api/v1/orders/user/<em>:userId</em></td><td>Orders by user</td></tr>
+        <tr><td><span class="badge badge-GET">GET</span></td><td class="path">/api/v1/orders/status/<em>:status</em></td><td>Orders by status</td></tr>
+        <tr><td><span class="badge badge-POST">POST</span></td><td class="path">/api/orders</td><td>Place a new order</td></tr>
+        <tr><td><span class="badge badge-PATCH">PATCH</span></td><td class="path">/api/orders/<em>:id</em></td><td>Update order status</td></tr>
+        <tr><td><span class="badge badge-DELETE">DELETE</span></td><td class="path">/api/orders/<em>:id</em></td><td>Delete an order</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- Reviews -->
+  <section id="reviews">
+    <h2>Reviews</h2>
+    <p>Product reviews and ratings submitted by verified purchasers.</p>
+    <table class="endpoint-table">
+      <thead><tr><th>Method</th><th>Path</th><th>Description</th></tr></thead>
+      <tbody>
+        <tr><td><span class="badge badge-GET">GET</span></td><td class="path">/api/reviews</td><td>List all reviews</td></tr>
+        <tr><td><span class="badge badge-GET">GET</span></td><td class="path">/api/reviews/<em>:id</em></td><td>Get a single review</td></tr>
+        <tr><td><span class="badge badge-GET">GET</span></td><td class="path">/api/v1/reviews/product/<em>:productId</em></td><td>Reviews for a product</td></tr>
+        <tr><td><span class="badge badge-GET">GET</span></td><td class="path">/api/v1/reviews/user/<em>:userId</em></td><td>Reviews by a user</td></tr>
+        <tr><td><span class="badge badge-POST">POST</span></td><td class="path">/api/reviews</td><td>Submit a review</td></tr>
+        <tr><td><span class="badge badge-PATCH">PATCH</span></td><td class="path">/api/reviews/<em>:id</em></td><td>Edit a review</td></tr>
+        <tr><td><span class="badge badge-DELETE">DELETE</span></td><td class="path">/api/reviews/<em>:id</em></td><td>Delete a review</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- Carts -->
+  <section id="carts">
+    <h2>Carts</h2>
+    <p>Shopping cart management per user session.</p>
+    <table class="endpoint-table">
+      <thead><tr><th>Method</th><th>Path</th><th>Description</th></tr></thead>
+      <tbody>
+        <tr><td><span class="badge badge-GET">GET</span></td><td class="path">/api/carts</td><td>List all carts</td></tr>
+        <tr><td><span class="badge badge-GET">GET</span></td><td class="path">/api/carts/<em>:id</em></td><td>Get a single cart</td></tr>
+        <tr><td><span class="badge badge-GET">GET</span></td><td class="path">/api/v1/carts/user/<em>:userId</em></td><td>Cart for a specific user</td></tr>
+        <tr><td><span class="badge badge-POST">POST</span></td><td class="path">/api/carts</td><td>Create a cart</td></tr>
+        <tr><td><span class="badge badge-PATCH">PATCH</span></td><td class="path">/api/carts/<em>:id</em></td><td>Update cart items</td></tr>
+        <tr><td><span class="badge badge-DELETE">DELETE</span></td><td class="path">/api/carts/<em>:id</em></td><td>Delete a cart</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- Coupons -->
+  <section id="coupons">
+    <h2>Coupons</h2>
+    <p>Discount codes — percentage-based or fixed-amount deductions.</p>
+    <table class="endpoint-table">
+      <thead><tr><th>Method</th><th>Path</th><th>Description</th></tr></thead>
+      <tbody>
+        <tr><td><span class="badge badge-GET">GET</span></td><td class="path">/api/coupons</td><td>List all coupons</td></tr>
+        <tr><td><span class="badge badge-GET">GET</span></td><td class="path">/api/coupons/<em>:id</em></td><td>Get a coupon</td></tr>
+        <tr><td><span class="badge badge-POST">POST</span></td><td class="path">/api/coupons</td><td>Create a coupon</td></tr>
+        <tr><td><span class="badge badge-PATCH">PATCH</span></td><td class="path">/api/coupons/<em>:id</em></td><td>Update a coupon</td></tr>
+        <tr><td><span class="badge badge-DELETE">DELETE</span></td><td class="path">/api/coupons/<em>:id</em></td><td>Delete a coupon</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <hr>
+
+  <!-- Querying -->
+  <section id="querying">
+    <h2>Filtering, Sorting & Pagination</h2>
+    <p>json-server supports advanced query parameters out of the box — no extra code needed.</p>
+
+    <h3>Filter by field</h3>
+    <pre><code>GET /api/products?status=active
+GET /api/products?categoryId=1
+GET /api/orders?paymentStatus=paid
+GET /api/users?role=customer</code></pre>
+
+    <h3>Full-text search</h3>
+    <pre><code>GET /api/products?q=wireless
+GET /api/reviews?q=excellent</code></pre>
+
+    <h3>Sort</h3>
+    <pre><code>GET /api/products?_sort=price&_order=asc
+GET /api/products?_sort=rating&_order=desc
+GET /api/orders?_sort=createdAt&_order=desc</code></pre>
+
+    <h3>Pagination</h3>
+    <pre><code>GET /api/products?_page=1&_limit=10
+GET /api/orders?_page=2&_limit=5</code></pre>
+    <p>The response includes an <code>X-Total-Count</code> header with the total number of records.</p>
+
+    <h3>Slice range</h3>
+    <pre><code>GET /api/products?_start=0&_end=5</code></pre>
+  </section>
+
+  <hr>
+
+  <!-- Status Codes -->
+  <section id="status-codes">
+    <h2>HTTP Status Codes</h2>
+    <table class="status-table">
+      <tbody>
+        <tr><td><span class="status-code" style="color:var(--green)">200 OK</span></td><td>Successful GET, PUT, PATCH request</td></tr>
+        <tr><td><span class="status-code" style="color:var(--blue)">201 Created</span></td><td>Resource successfully created via POST</td></tr>
+        <tr><td><span class="status-code" style="color:var(--ink-muted)">204 No Content</span></td><td>Successful DELETE — no body returned</td></tr>
+        <tr><td><span class="status-code" style="color:var(--amber)">400 Bad Request</span></td><td>Malformed request body</td></tr>
+        <tr><td><span class="status-code" style="color:var(--red)">404 Not Found</span></td><td>Resource does not exist</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <hr>
+
+  <!-- Examples -->
+  <section id="examples">
+    <h2>Request Examples</h2>
+
+    <h3>Place a new order</h3>
+    <pre><code><span class="comment">POST /api/orders</span>
+<span class="comment">Content-Type: application/json</span>
+
+{
+  <span class="key">"userId"</span>: <span class="number">1</span>,
+  <span class="key">"status"</span>: <span class="string">"pending"</span>,
+  <span class="key">"paymentStatus"</span>: <span class="string">"paid"</span>,
+  <span class="key">"paymentMethod"</span>: <span class="string">"card"</span>,
+  <span class="key">"subtotal"</span>: <span class="number">149.99</span>,
+  <span class="key">"tax"</span>: <span class="number">12.00</span>,
+  <span class="key">"shippingFee"</span>: <span class="number">5.00</span>,
+  <span class="key">"total"</span>: <span class="number">166.99</span>,
+  <span class="key">"currency"</span>: <span class="string">"USD"</span>,
+  <span class="key">"items"</span>: [
+    {
+      <span class="key">"productId"</span>: <span class="number">1</span>,
+      <span class="key">"productName"</span>: <span class="string">"Wireless Headphones"</span>,
+      <span class="key">"quantity"</span>: <span class="number">1</span>,
+      <span class="key">"unitPrice"</span>: <span class="number">149.99</span>,
+      <span class="key">"subtotal"</span>: <span class="number">149.99</span>
+    }
+  ],
+  <span class="key">"createdAt"</span>: <span class="string">"2024-04-15T10:00:00Z"</span>
+}</code></pre>
+
+    <h3>Update an order status</h3>
+    <pre><code><span class="comment">PATCH /api/orders/1</span>
+<span class="comment">Content-Type: application/json</span>
+
+{
+  <span class="key">"status"</span>: <span class="string">"shipped"</span>,
+  <span class="key">"updatedAt"</span>: <span class="string">"2024-04-16T08:30:00Z"</span>
+}</code></pre>
+
+    <h3>Submit a product review</h3>
+    <pre><code><span class="comment">POST /api/reviews</span>
+<span class="comment">Content-Type: application/json</span>
+
+{
+  <span class="key">"productId"</span>: <span class="number">1</span>,
+  <span class="key">"userId"</span>: <span class="number">2</span>,
+  <span class="key">"rating"</span>: <span class="number">5</span>,
+  <span class="key">"title"</span>: <span class="string">"Incredible sound quality"</span>,
+  <span class="key">"body"</span>: <span class="string">"Best purchase this year."</span>,
+  <span class="key">"verified"</span>: <span class="bool">true</span>,
+  <span class="key">"createdAt"</span>: <span class="string">"2024-04-15T12:00:00Z"</span>
+}</code></pre>
+
+    <h3>Paginated, sorted active products</h3>
+    <pre><code>GET /api/products?status=active&_sort=rating&_order=desc&_page=1&_limit=5</code></pre>
+
+    <h3>Search products by keyword</h3>
+    <pre><code>GET /api/products?q=wireless</code></pre>
+
+    <h3>Get all orders for a user</h3>
+    <pre><code>GET /api/v1/orders/user/1</code></pre>
+  </section>
+
+</main>
+
+<script>
+  const links = document.querySelectorAll('.nav-link');
+  const sections = document.querySelectorAll('section, .hero');
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        links.forEach(l => l.classList.remove('active'));
+        const id = e.target.id;
+        const active = document.querySelector(`.nav-link[href="#${id}"]`);
+        if (active) active.classList.add('active');
+      }
+    });
+  }, { threshold: 0.3 });
+  sections.forEach(s => observer.observe(s));
+</script>
+</body>
+</html>

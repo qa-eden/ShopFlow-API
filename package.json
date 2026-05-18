@@ -1,0 +1,25 @@
+{
+  "name": "shopflow-api",
+  "version": "1.0.0",
+  "description": "A fully-featured RESTful mock API for an e-commerce platform, powered by [json-server](https://github.com/typicode/json-server). Designed to simulate real-world API behaviour — ideal for frontend development, integration testing, and portfolio demonstration.",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/qa-eden/ShopFlow-API.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/qa-eden/ShopFlow-API/issues"
+  },
+  "homepage": "https://github.com/qa-eden/ShopFlow-API#readme",
+  "dependencies": {
+    "json-server": "^0.17.4"
+  }
+}

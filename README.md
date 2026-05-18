@@ -47,16 +47,11 @@ All responses are in `application/json`.
 
 ## Getting Started
 
-### Prerequisites
-
-- Node.js `>= 14.x`
-- npm `>= 6.x`
-
 ### Installation
 
 ```bash
 # 1. Clone the repository
-git clone https://github.com/your-username/shopflow-api.git
+git clone https://github.com/qa-eden/shopflow-api.git
 cd shopflow-api
 
 # 2. Install dependencies
@@ -71,20 +66,16 @@ The API will be live at **http://localhost:3000/api**
 ### Development mode (with simulated network delay)
 
 ```bash
-npm run dev
+json-server SHopFlowAPI.json
 ```
-
-This adds a 300ms delay to all responses, simulating a real network round-trip — useful for testing loading states in your UI.
-
 ---
 
 ## Project Structure
 
 ```
 shopflow-api/
-├── db.json          # All data (the "database")
-├── routes.json      # Custom route aliases
-├── package.json     # Project config and scripts
+├── ShopFlowAPI.json          # All data (the "database")
+├── ShopFlow API Documentation.html     # Project Static Documentation
 └── README.md        # This documentation
 ```
 
@@ -439,11 +430,9 @@ GET /api/products?q=wireless
 ---
 
 ## Notes
-
-- This is a mock API. Data is stored in `db.json` and persists across restarts.
 - All `POST` requests auto-generate an incremented `id`.
 - There is no built-in authentication — this is intentional for local development use.
-- To reset data to the original seed, restore `db.json` from version control.
+- To reset data to the original seed, restore `ShopFlowAPI.json` from version control.
 
 ---
 

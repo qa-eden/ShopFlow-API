@@ -17,10 +17,28 @@
               "listen": "prerequest",
               "script": {
                 "exec": [
-                  "var random=Math.random().toString(36).substring(2);\r",
+                  ""
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "// Validate Response\r",
+                  "pm.test(\"Status code is 201\",()=>{\r",
+                  "    pm.response.to.have.status(201);\r",
+                  "});\r",
                   "\r",
-                  "var useremail=\"User\"+random+\"@gmail.com\";\r",
-                  "var username=\"Eden \"+random;"
+                  "var jsonData=pm.response.json();\r",
+                  "pm.test(\"Validate Response body\", ()=>{\r",
+                  "    pm.expect(jsonData).to.be.an(\"Object\");\r",
+                  "    pm.expect(jsonData.name).to.be.a(\"String\")\r",
+                  "});\r",
+                  ""
                 ],
                 "type": "text/javascript",
                 "packages": {},
@@ -33,7 +51,7 @@
             "header": [],
             "body": {
               "mode": "raw",
-              "raw": "{\r\n    \"name\":\"Adeniran Emmanuel\",\r\n    \"email\":\"eden1@gmil.com\",\r\n    \"phone\":\"877-677-221\",\r\n    \"role\":\"customer\"\r\n}",
+              "raw": "{\r\n    \"name\":\"{{username}}\",\r\n    \"email\":\"{{useremail}}\",\r\n    \"phone\":\"{{usernumber}}\",\r\n    \"role\":\"customer\"\r\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -41,12 +59,11 @@
               }
             },
             "url": {
-              "raw": "{{baseUrl}}/api/users",
+              "raw": "{{baseUrl}}/users",
               "host": [
                 "{{baseUrl}}"
               ],
               "path": [
-                "api",
                 "users"
               ]
             }
@@ -55,12 +72,39 @@
         },
         {
           "name": "TC_User_002 Create User Without Email",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "// Check for the Negative testing\r",
+                  "pm.test(\"Status code is 400\", ()=>{\r",
+                  "    pm.response.to.have.status(400);\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"Error message is 'Email is required'\", () => {\r",
+                  "    pm.expect(pm.response.json().error).to.eql(\"Email is required\");\r",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            },
+            {
+              "listen": "prerequest",
+              "script": {
+                "packages": {},
+                "type": "text/javascript"
+              }
+            }
+          ],
           "request": {
             "method": "POST",
             "header": [],
             "body": {
               "mode": "raw",
-              "raw": "{\r\n    \"name\":\"eden tobi\",\r\n    \"phone\":\"877-677-221\",\r\n    \"role\":\"customer\"\r\n}",
+              "raw": "{\r\n    \"name\":\"{{username}}\",\r\n    \"phone\":\"{{usernumber}}\",\r\n    \"role\":\"customer\"\r\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -80,19 +124,117 @@
           "response": []
         },
         {
-          "name": "{{baseUrl}}/users",
-          "protocolProfileBehavior": {
-            "disableBodyPruning": true
-          },
+          "name": "TC_User_003 Retrieve Existing User",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "// Validate response\r",
+                  "pm.test(\"Status code is 200\", ()=>{\r",
+                  "    pm.response.to.have.status(200);\r",
+                  "});\r",
+                  "\r",
+                  ""
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
           "request": {
-            "auth": {
-              "type": "noauth"
-            },
             "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/users/1",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "users",
+                "1"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "TC_User_004 Retrieve non-existing User",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "// Validate response\r",
+                  "pm.test(\"Status Code is 404\", ()=>{\r",
+                  "    pm.response.to.have.status(404)\r",
+                  "});\r",
+                  ""
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/users/9999",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "users",
+                "9999"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "TC_User_005 Create user with name shorter than 3 chars",
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "exec": [
+                  ""
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "// Validate Response\r",
+                  "pm.test(\"Status code is 400\",()=>{\r",
+                  "    pm.response.to.have.status(400);\r",
+                  "});\r",
+                  ""
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
             "header": [],
             "body": {
               "mode": "raw",
-              "raw": ""
+              "raw": "{\r\n    \"name\":\"jo\",\r\n    \"email\":\"{{useremail}}\",\r\n    \"phone\":\"{{usernumber}}\",\r\n    \"role\":\"customer\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
             },
             "url": {
               "raw": "{{baseUrl}}/users",
@@ -105,8 +247,414 @@
             }
           },
           "response": []
+        },
+        {
+          "name": "TC_User_006 Create user with invalid email format",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "// Validate Response\r",
+                  "pm.test(\"Status Code is 400\", ()=>{\r",
+                  "    pm.response.to.have.status(400);\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"Invalid Email Format is Displayed\",()=>{\r",
+                  "    pm.expect(pm.response.json().error).to.eql(\"Invalid email format\");\r",
+                  "});\r",
+                  ""
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            },
+            {
+              "listen": "prerequest",
+              "script": {
+                "exec": [
+                  ""
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"name\":\"{{username}}\",\r\n    \"email\":\"user-gmail.com\",\r\n    \"phone\":\"{{usernumber}}\",\r\n    \"role\":\"customer\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/users",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "users"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "TC_User_007 Create user with duplicate email",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "// Validate Response\r",
+                  "pm.test(\"Status Code is 400\", ()=>{\r",
+                  "    pm.response.to.have.status(400);\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"Email already exists is Displayed\", ()=>{\r",
+                  "    pm.expect(pm.response.text()).to.include(\"Email already exists\");\r",
+                  "});\r",
+                  ""
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"name\":\"{{username}}\",\r\n    \"email\":\"alice@example.com\",\r\n    \"phone\":\"{{usernumber}}\",\r\n    \"role\":\"customer\"\r\n}\r\n",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/users",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "users"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "TC_User_008 Create user with invalid phone number",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "// Validate Response\r",
+                  "pm.test(\"Status Code is 400\", ()=>{\r",
+                  "    pm.response.to.have.status(400);\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"Incalid phone number is Displayed\",()=>{\r",
+                  "    pm.expect(pm.response.json().error).to.eql(\"Invalid phone number\");\r",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"name\":\"{{username}}\",\r\n    \"email\":\"{{useremail}}\",\r\n    \"phone\":\"5647\",\r\n    \"role\":\"customer\"\r\n}\r\n",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/users",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "users"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "TC_User_009 Create user with invalid role",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "// Validate Response\r",
+                  "pm.test(\"Status Code is 400\", ()=>{\r",
+                  "    pm.response.to.have.status(400);\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"Incalid phone number is Displayed\",()=>{\r",
+                  "    pm.expect(pm.response.json().error).to.eql(\"Invalid role\");\r",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"name\":\"{{username}}\",\r\n    \"email\":\"{{useremail}}\",\r\n    \"phone\":\"{{usernumber}}\",\r\n    \"role\": \"player\"\r\n}\r\n",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/users",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "users"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "TC_User_010 Retrieve all users",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "// Validate Response\r",
+                  "pm.test(\"Status code is 200\", ()=>{\r",
+                  "    pm.response.to.have.status(200);\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"Response Body is an Array\", ()=>{\r",
+                  "    pm.expect(pm.response.json()).to.be.an('array');\r",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "GET",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/users",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "users"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "TC_User_011 Retrieve Single Student",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "// Validate Response\r",
+                  "pm.test(\"Status Code is 200\", ()=>{\r",
+                  "    pm.response.to.have.status(200);\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"Response should be an Object\", ()=>{\r",
+                  "    pm.expect(pm.response.json()).to.be.an('Object');\r",
+                  "});\r",
+                  "var jsonData = pm.response.json();\r",
+                  "pm.collectionVariables.set(\"initial_phone\",jsonData.phone);"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "GET",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/users/3",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "users",
+                "3"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "TC_User_011 Update user Phone",
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "exec": [
+                  "\r",
+                  "\r",
+                  ""
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "// Validate Response\r",
+                  "pm.test(\"Status Code is 200\", ()=>{\r",
+                  "    pm.response.to.have.status(200);\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"Old Number is Updated\",()=> {\r",
+                  "    pm.expect(pm.response.json().number).to.not.eql(\"{{initial_phone}}\");\r",
+                  "});\r",
+                  "\r",
+                  "var jsonData = pm.response.json();\r",
+                  "console.log(\"Old Phone Number was:\", pm.variables.get(\"initial_phone\"));\r",
+                  "console.log(\"New Phone Number is:\", jsonData.phone);"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "PATCH",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"phone\":\"{{usernumber}}\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/users/3",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "users",
+                "3"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "TC_User_012 Delete Existing User",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "// Validate Response\r",
+                  "pm.test(\"Status code is 200\", ()=>{\r",
+                  "    pm.response.to.have.status(200);\r",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/users/6",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "users",
+                "6"
+              ]
+            }
+          },
+          "response": []
         }
-      ]
+      ],
+      "description": "This is the User Test Cases"
     },
     {
       "name": "Categories",
@@ -141,7 +689,21 @@
         "packages": {},
         "requests": {},
         "exec": [
-          ""
+          "function randomNumber(length) {\r",
+          "    let min = Math.pow(10, length - 1);\r",
+          "    let max = Math.pow(10, length) - 1;\r",
+          "\r",
+          "    return Math.floor(min + Math.random() * (max - min + 1));\r",
+          "}\r",
+          "var randomString = Math.random().toString(36).substring(2, 10);\r",
+          "\r",
+          "var useramail =\"user\"+randomString+randomNumber(2)+\"@gmail.com\";\r",
+          "var username = \"user \"+randomString;\r",
+          "var usernumber=randomNumber(11);\r",
+          "\r",
+          "pm.variables.set(\"useremail\", useramail);\r",
+          "pm.variables.set(\"username\",username);\r",
+          "pm.variables.set(\"usernumber\", usernumber);"
         ]
       }
     },
@@ -160,6 +722,10 @@
   "variable": [
     {
       "key": "baseUrl",
+      "value": ""
+    },
+    {
+      "key": "initial_phone",
       "value": ""
     }
   ]

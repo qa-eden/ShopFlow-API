@@ -31,10 +31,9 @@
       }
     },
     {
-      "id": 3,
       "name": "Carol Smith",
       "email": "carol@example.com",
-      "phone": "+1-555-0103",
+      "phone": "25681905864",
       "role": "admin",
       "createdAt": "2024-01-01T09:00:00Z",
       "address": {
@@ -43,7 +42,8 @@
         "state": "Rivers",
         "country": "Nigeria",
         "postalCode": "500001"
-      }
+      },
+      "id": 3
     },
     {
       "id": 4,
@@ -61,19 +61,6 @@
       }
     },
     {
-      "name": "Adeniran Emmanuel",
-      "email": "eden@gmil.com",
-      "phone": "877-677-221",
-      "role": "customer",
-      "id": 5
-    },
-    {
-      "name": "eden tobi",
-      "phone": "877-677-221",
-      "role": "customer",
-      "id": 6
-    },
-    {
       "id": 7
     },
     {
@@ -82,6 +69,90 @@
       "phone": "877-677-221",
       "role": "customer",
       "id": 8
+    },
+    {
+      "name": "user 08fgwkcq",
+      "email": "user08fgwkcq17@gmail.com",
+      "phone": "70972562419",
+      "role": "customer",
+      "id": 9
+    },
+    {
+      "name": "user k0r6pj0b",
+      "email": "userk0r6pj0b49@gmail.com",
+      "phone": "58082549221",
+      "role": "customer",
+      "id": 10
+    },
+    {
+      "name": "user wmv061vh",
+      "email": "userwmv061vh80@gmail.com",
+      "phone": "92834571803",
+      "role": "customer",
+      "id": 11
+    },
+    {
+      "name": "rm4k2tecj1",
+      "email": "usere5rmco0565@gmail.com",
+      "phone": "68553083989",
+      "role": "customer",
+      "id": 12
+    },
+    {
+      "name": "user ahtvjqn6",
+      "email": "userahtvjqn659@gmail.com",
+      "phone": "61537212073",
+      "role": "customer",
+      "id": 13
+    },
+    {
+      "name": "user shxtq3cl",
+      "email": "usershxtq3cl96@gmail.com",
+      "phone": "32048176658",
+      "role": "customer",
+      "id": 14
+    },
+    {
+      "name": "user gsjbxjhd",
+      "email": "usergsjbxjhd40@gmail.com",
+      "phone": "58344968502",
+      "role": "customer",
+      "id": 15
+    },
+    {
+      "name": "var",
+      "email": "userabz1dddq10@gmail.com",
+      "phone": "61047585774",
+      "role": "customer",
+      "id": 16
+    },
+    {
+      "name": "user zaflp6cv",
+      "email": "userzaflp6cv45@gmail.com",
+      "phone": "95632799692",
+      "role": "customer",
+      "id": 17
+    },
+    {
+      "name": "user y5s8m8iy",
+      "email": "user@gmai.com",
+      "phone": "48297144361",
+      "role": "customer",
+      "id": 18
+    },
+    {
+      "name": "user ezr2vv46",
+      "email": "userezr2vv4637@gmail.com",
+      "phone": "5664433333",
+      "role": "customer",
+      "id": 19
+    },
+    {
+      "name": "user bc3cktaz",
+      "email": "userbc3cktaz21@gmail.com",
+      "phone": "77849113020",
+      "role": "",
+      "id": 20
     }
   ],
   "categories": [

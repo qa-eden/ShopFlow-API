@@ -193,11 +193,11 @@
       "name": "Wireless Noise-Cancelling Headphones",
       "slug": "wireless-nc-headphones",
       "description": "Premium over-ear headphones with 30-hour battery life and active noise cancellation.",
-      "price": 149.99,
+      "price": 300,
       "comparePrice": 199.99,
       "sku": "ELEC-HP-001",
       "categoryId": 1,
-      "stock": 85,
+      "stock": 0,
       "rating": 4.7,
       "reviewCount": 312,
       "images": [
@@ -351,27 +351,36 @@
       "createdAt": "2024-02-28T00:00:00Z"
     },
     {
-      "name": "Rechargeable Lamp",
-      "price": 500,
+      "name": "Rechargeable Lamp Holder",
       "categoryId": 2,
-      "stock": "50",
-      "status": "active",
-      "id": 8
+      "price": 5000,
+      "stock": 50,
+      "status": "out_of_stock",
+      "id": 13
     },
     {
-      "name": "Rechargeable Lamp",
-      "price": 500,
+      "name": "Fan",
       "categoryId": 2,
-      "stock": "50",
-      "status": "active",
-      "id": 9
+      "price": 5000,
+      "stock": 50,
+      "status": "out_of_stock",
+      "id": 14
     },
     {
-      "name": "Rechargeable Lamp",
+      "name": "Fan Blade",
       "categoryId": 2,
-      "stock": "50",
-      "status": "active",
-      "id": 10
+      "price": 5000,
+      "stock": 50,
+      "status": "out_of_stock",
+      "id": 15
+    },
+    {
+      "name": "Ceiling Fan",
+      "categoryId": 2,
+      "price": 5000,
+      "stock": 50,
+      "status": "out_of_stock",
+      "id": 16
     }
   ],
   "orders": [

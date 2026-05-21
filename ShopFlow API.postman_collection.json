@@ -553,8 +553,6 @@
               "listen": "prerequest",
               "script": {
                 "exec": [
-                  "\r",
-                  "\r",
                   ""
                 ],
                 "type": "text/javascript",
@@ -657,11 +655,644 @@
       "description": "This is the User Test Cases"
     },
     {
-      "name": "Categories",
-      "item": []
+      "name": "Products",
+      "item": [
+        {
+          "name": "TC_Products_001 Create Product with valid Data",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"name\":\"Ceiling Fan\",\r\n    \"categoryId\": 2,\r\n    \"price\": 5000,\r\n    \"stock\":50,\r\n    \"status\": \"out_of_stock\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/products",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "products"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "TC_Products_002 Create Product with Negative Price",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"name\":\"Rechargeable Lamp\",\r\n    \"categoryId\": 2,\r\n    \"price\": -5000,\r\n    \"stock\":50,\r\n    \"status\": \"active\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/products",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "products"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "TC_Products_003 Retrieve all products",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/products",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "products"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "TC_Products_004 Retrieve product by valid ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/products/11",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "products",
+                "11"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "TC_Products_005 Retrieve product by invalid ID",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "GET",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": ""
+            },
+            "url": {
+              "raw": "{{baseUrl}}/products/9999",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "products",
+                "9999"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "TC_Products_006 Filter Active Products",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "const jsonData=pm.response.json();\r",
+                  "pm.test(\"Status Code is 200\", ()=>{\r",
+                  "    pm.response.to.have.status(200);\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"Validate Response is an Array and Status is Active\", ()=>{\r",
+                  "    pm.expect(jsonData).to.be.an(\"array\");\r",
+                  "    jsonData.forEach((products)=>{\r",
+                  "        pm.expect(products.status).to.equal(\"active\")\r",
+                  "    });\r",
+                  "});\r",
+                  ""
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/products/?status=active",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "products",
+                ""
+              ],
+              "query": [
+                {
+                  "key": "status",
+                  "value": "active"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "TC_Products_007 Filter Out of Stock Products",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "const jsonData=pm.response.json();\r",
+                  "pm.test(\"Status Code is 200\", ()=>{\r",
+                  "    pm.response.to.have.status(200);\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"Validate Response is an Array and Status is Out of Stock\", ()=>{\r",
+                  "    pm.expect(jsonData).to.be.an(\"array\");\r",
+                  "    jsonData.forEach((products)=>{\r",
+                  "        pm.expect(products.status).to.equal(\"out_of_stock\")\r",
+                  "    });\r",
+                  "});\r",
+                  ""
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/products/?status=out_of_stock",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "products",
+                ""
+              ],
+              "query": [
+                {
+                  "key": "status",
+                  "value": "out_of_stock"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "TC_Products_008 Filter Products by Category",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "const jsonData=pm.response.json();\r",
+                  "pm.test(\"Status Code is 200\", ()=>{\r",
+                  "    pm.response.to.have.status(200);\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"Validate Response is an Array and Category is 1\", ()=>{\r",
+                  "    pm.expect(jsonData).to.be.an(\"array\");\r",
+                  "    jsonData.forEach((products)=>{\r",
+                  "        pm.expect(products.categoryId).to.equal(1)\r",
+                  "    });\r",
+                  "});\r",
+                  ""
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/products/?categoryId=1",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "products",
+                ""
+              ],
+              "query": [
+                {
+                  "key": "categoryId",
+                  "value": "1"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "TC_Products_009 Sort products by price ascending",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "// Vaidate Response\r",
+                  "pm.test(\"Validate Status Code is 200\", ()=>{\r",
+                  "    pm.response.to.have.status(200)\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"Response should be an Array and Price is sorted Ascending\", ()=>{\r",
+                  "    var jsonData=pm.response.json();\r",
+                  "    pm.expect(jsonData).to.be.an('array');\r",
+                  "    \r",
+                  "    // Validate is the Price is in Ascending order\r",
+                  "    for(let i=0;i<jsonData.length-1;i++){\r",
+                  "        pm.expect(jsonData[i].price).to.be.at.most(jsonData[i+1].price)\r",
+                  "    }\r",
+                  "\r",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/products/?_sort=price&_order=asc",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "products",
+                ""
+              ],
+              "query": [
+                {
+                  "key": "_sort",
+                  "value": "price"
+                },
+                {
+                  "key": "_order",
+                  "value": "asc"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "TC_Produts_010 Sort products by price descending",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "// Vaidate Response\r",
+                  "pm.test(\"Validate Status Code is 200\", ()=>{\r",
+                  "    pm.response.to.have.status(200)\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"Response should be an Array and Price is sorted Descending\", ()=>{\r",
+                  "    var jsonData=pm.response.json();\r",
+                  "    pm.expect(jsonData).to.be.an('array');\r",
+                  "    \r",
+                  "    // Validate is the Price is in Descending order\r",
+                  "    for(let i=0;i<jsonData.length-1;i++){\r",
+                  "        pm.expect(jsonData[i].price).to.be.at.least(jsonData[i+1].price)\r",
+                  "    }\r",
+                  "\r",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "GET",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/products/?_sort=price&_order=desc",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "products",
+                ""
+              ],
+              "query": [
+                {
+                  "key": "_sort",
+                  "value": "price"
+                },
+                {
+                  "key": "_order",
+                  "value": "desc"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "TC_Products_011 Paginate products",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status is 200\", ()=>{\r",
+                  "    pm.response.to.have.status(200);\r",
+                  "})\r",
+                  "\r",
+                  "pm.test(\"Only 3 Produts is Displayed\", ()=>{\r",
+                  "    var jsonData=pm.response.json();\r",
+                  "\r",
+                  "    pm.expect(jsonData.length).to.be.eql(3)\r",
+                  "})"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/products?_page=1&_limit=3",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "products"
+              ],
+              "query": [
+                {
+                  "key": "_page",
+                  "value": "1"
+                },
+                {
+                  "key": "_limit",
+                  "value": "3"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "TC_Products_012 Search products by name",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status Code is 200\", ()=>{\r",
+                  "    pm.response.to.have.status(200);\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"Product Name should be Headphones\", ()=>{\r",
+                  "    var jsonData=pm.response.json();\r",
+                  "    pm.expect(jsonData).to.be.an('array');\r",
+                  "    jsonData.forEach( (products)=>{\r",
+                  "        pm.expect(products.name).to.contain(\"Headphones\")\r",
+                  "    });\r",
+                  "});\r",
+                  ""
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/products?name_like=Headphones",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "products"
+              ],
+              "query": [
+                {
+                  "key": "name_like",
+                  "value": "Headphones"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "TC_Products_013 Update product price",
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "exec": [
+                  "pm.variables.set(\"new_price\",300);"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status Code is 200\", ()=>{\r",
+                  "    pm.response.to.have.status(200);\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"Response is an Object and Price is Updated\", ()=>{\r",
+                  "    var jsonData=pm.response.json();\r",
+                  "    pm.expect(jsonData).to.be.an('object');\r",
+                  "\r",
+                  "    pm.expect(jsonData.price).to.be.eql(pm.variables.get(\"new_price\"));\r",
+                  "    \r",
+                  "})"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "PATCH",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"price\":{{new_price}}\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/products/1",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "products",
+                "1"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "TC_Products_014 Update product stock to zero",
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "exec": [
+                  "pm.variables.set(\"new_stock\", 0);"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status Code is 200\", ()=>{\r",
+                  "    pm.response.to.have.status(200);\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"Response is an Object and Price is Updated\", ()=>{\r",
+                  "    var jsonData=pm.response.json();\r",
+                  "    pm.expect(jsonData).to.be.an('object');\r",
+                  "\r",
+                  "    pm.expect(jsonData.stock).to.be.eql(pm.variables.get(\"new_stock\"));\r",
+                  "    \r",
+                  "})"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "PATCH",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"stock\":{{new_stock}}\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/products/1",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "products",
+                "1"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "TC_Products_015 Delete a Product",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status Code is 200\", ()=>{\r",
+                  "    pm.response.to.have.status(200)\r",
+                  "})"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": ""
+            },
+            "url": {
+              "raw": "{{baseUrl}}/products/12",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "products",
+                "12"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
     },
     {
-      "name": "Products",
+      "name": "Categories",
       "item": []
     },
     {

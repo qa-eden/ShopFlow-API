@@ -349,6 +349,29 @@
       ],
       "status": "out_of_stock",
       "createdAt": "2024-02-28T00:00:00Z"
+    },
+    {
+      "name": "Rechargeable Lamp",
+      "price": 500,
+      "categoryId": 2,
+      "stock": "50",
+      "status": "active",
+      "id": 8
+    },
+    {
+      "name": "Rechargeable Lamp",
+      "price": 500,
+      "categoryId": 2,
+      "stock": "50",
+      "status": "active",
+      "id": 9
+    },
+    {
+      "name": "Rechargeable Lamp",
+      "categoryId": 2,
+      "stock": "50",
+      "status": "active",
+      "id": 10
     }
   ],
   "orders": [

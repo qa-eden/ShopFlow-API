@@ -381,6 +381,30 @@
       "stock": 50,
       "status": "out_of_stock",
       "id": 16
+    },
+    {
+      "name": "Ceiling Fan",
+      "categoryId": 2,
+      "price": 5000,
+      "stock": 50,
+      "status": "out_of_stock",
+      "id": 17
+    },
+    {
+      "name": "Ceiling Fan",
+      "categoryId": 2,
+      "price": 5000,
+      "stock": 50,
+      "status": "out_of_stock",
+      "id": 18
+    },
+    {
+      "name": "Ceiling Fan",
+      "categoryId": 2,
+      "price": 5000,
+      "stock": 50,
+      "status": "out_of_stock",
+      "id": 19
     }
   ],
   "orders": [
@@ -388,7 +412,7 @@
       "id": 1,
       "orderNumber": "SF-2024-0001",
       "userId": 1,
-      "status": "delivered",
+      "status": "shipped",
       "paymentStatus": "paid",
       "paymentMethod": "card",
       "subtotal": 188.98,
@@ -434,7 +458,7 @@
       "id": 2,
       "orderNumber": "SF-2024-0002",
       "userId": 2,
-      "status": "processing",
+      "status": "shipped",
       "paymentStatus": "paid",
       "paymentMethod": "bank_transfer",
       "subtotal": 599.99,
@@ -466,7 +490,7 @@
       "id": 3,
       "orderNumber": "SF-2024-0003",
       "userId": 4,
-      "status": "shipped",
+      "status": "delivered",
       "paymentStatus": "paid",
       "paymentMethod": "card",
       "subtotal": 389.98,
@@ -500,6 +524,56 @@
       "notes": "",
       "createdAt": "2024-04-05T14:00:00Z",
       "updatedAt": "2024-04-07T08:00:00Z"
+    },
+    {
+      "userId": 2,
+      "items": [
+        {
+          "productId": 2,
+          "quantity": 1,
+          "unitPrice": 599.99
+        }
+      ],
+      "paymentMethod": "bank_transfer",
+      "status": "pending",
+      "subtotal": 599.99,
+      "tax": 48,
+      "shippingFee": 0,
+      "total": 647.99,
+      "id": 4
+    },
+    {
+      "userId": 1,
+      "items": [
+        {
+          "productId": 1,
+          "quantity": 1,
+          "unitPrice": 149.99
+        }
+      ],
+      "id": 5
+    },
+    {
+      "userId": 1,
+      "items": [
+        {
+          "productId": 1,
+          "quantity": 1,
+          "unitPrice": 149.99
+        }
+      ],
+      "id": 6
+    },
+    {
+      "userId": 1,
+      "items": [
+        {
+          "productId": 1,
+          "quantity": 1,
+          "unitPrice": 149.99
+        }
+      ],
+      "id": 7
     }
   ],
   "reviews": [

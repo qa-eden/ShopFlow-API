@@ -659,6 +659,25 @@
       "item": [
         {
           "name": "TC_Products_001 Create Product with valid Data",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Validate Status os 201\", ()=>{\r",
+                  "    pm.response.to.have.status(201)\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"Price is a Number\", ()=>{\r",
+                  "    pm.expect(pm.response.json().price).to.be.a('number')\r",
+                  "})"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
           "request": {
             "method": "POST",
             "header": [],
@@ -685,6 +704,25 @@
         },
         {
           "name": "TC_Products_002 Create Product with Negative Price",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Validate Status is 400 (Bad request)\", ()=>{\r",
+                  "    pm.response.to.have.status(400)\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"Validate Error message is Displayed\", ()=>{\r",
+                  "    pm.expect(pm.response.text()).to.include(\"Price must be a positive number\")\r",
+                  "})"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
           "request": {
             "method": "POST",
             "header": [],
@@ -711,6 +749,25 @@
         },
         {
           "name": "TC_Products_003 Retrieve all products",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Validate Status Code\", ()=>{\r",
+                  "    pm.response.to.have.status(200)\r",
+                  "})\r",
+                  "\r",
+                  "pm.test(\"Validate response is an Array\", ()=>{\r",
+                  "    pm.expect(pm.response.json()).to.be.an('array')\r",
+                  "})"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
           "request": {
             "method": "GET",
             "header": [],
@@ -728,17 +785,36 @@
         },
         {
           "name": "TC_Products_004 Retrieve product by valid ID",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Validate Status Code is 200\", ()=>{\r",
+                  "    pm.expect(pm.response.code).to.eql(200)\r",
+                  "})\r",
+                  "\r",
+                  "pm.test(\"Validate Product ID\", () => {\r",
+                  "    pm.expect(pm.response.json().id).to.be.eql(1)\r",
+                  "})"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
           "request": {
             "method": "GET",
             "header": [],
             "url": {
-              "raw": "{{baseUrl}}/products/11",
+              "raw": "{{baseUrl}}/products/1",
               "host": [
                 "{{baseUrl}}"
               ],
               "path": [
                 "products",
-                "11"
+                "1"
               ]
             }
           },
@@ -746,6 +822,21 @@
         },
         {
           "name": "TC_Products_005 Retrieve product by invalid ID",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 404(Not Found)\", ()=>{\r",
+                  "    pm.expect(pm.response.code).to.eql(404)\r",
+                  "})"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
           "protocolProfileBehavior": {
             "disableBodyPruning": true
           },
@@ -1292,12 +1383,645 @@
       ]
     },
     {
-      "name": "Categories",
-      "item": []
-    },
-    {
       "name": "Orders",
-      "item": []
+      "item": [
+        {
+          "name": "TC_Orders_001 Create order with valid data",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 201\", ()=>{\r",
+                  "    pm.response.to.have.status(201);\r",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"userId\": 1,\r\n  \"items\": [\r\n    {\r\n      \"productId\": 1,\r\n      \"quantity\": 1,\r\n      \"unitPrice\": 149.99\r\n    }\r\n  ]\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/orders",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "orders"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "TC_Orders_002 Create order without userId",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Validate Status Code\", ()=>{\r",
+                  "    pm.response.to.have.status(400)\r",
+                  "})\r",
+                  "pm.test(\"Validate Error Message\", ()=>{\r",
+                  "    pm.expect(pm.response.json().error).to.eql(\"userId is required\")\r",
+                  "})"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"items\": [\r\n    {\r\n      \"productId\": 1,\r\n      \"quantity\": 1,\r\n      \"unitPrice\": 149.99\r\n    }\r\n  ]\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/orders",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "orders"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "TC_Orders_003 Create order with non-existing UserId",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Validate Status Code\", ()=>{\r",
+                  "    pm.response.to.have.status(400);\r",
+                  "})\r",
+                  "\r",
+                  "pm.test(\"Validate Error Message\", () => {\r",
+                  "    pm.expect(pm.response.json().error).to.eql(\"User not found\");\r",
+                  "})"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"userId\": 999,\r\n  \"items\": [\r\n    {\r\n      \"productId\": 1,\r\n      \"quantity\": 1,\r\n      \"unitPrice\": 149.99\r\n    }\r\n  ]\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/orders",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "orders"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "TC_Orders_004 Create order with empty items array",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Validate Status Code\", ()=>{\r",
+                  "    pm.response.to.have.status(400)\r",
+                  "})\r",
+                  "\r",
+                  "pm.test(\"Validate Error Message\", () => {\r",
+                  "    pm.expect(pm.response.json().error).to.eql(\"Order must contain at least one item\")\r",
+                  "})"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"userId\": 1,\r\n  \"items\": []\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/orders",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "orders"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "TC_Orders_005 Create order without items field",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Validate Status Code\", ()=>{\r",
+                  "    pm.response.to.have.status(400)\r",
+                  "})\r",
+                  "\r",
+                  "pm.test(\"Validate Error Message\", ()=>{\r",
+                  "    pm.expect(pm.response.json().error).to.eql(\"Items are required\")\r",
+                  "})"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"userId\": 1\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/orders",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "orders"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "TC_Orders_006 Create order with invalid Payment Method",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Validate Status Code\", ()=>{\r",
+                  "    pm.response.to.have.status(400)\r",
+                  "})\r",
+                  "\r",
+                  "pm.test(\"Validate Error Message\",()=>{\r",
+                  "    pm.expect(pm.response.json().error).to.eql(\"Invalid payment method\")\r",
+                  "})"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"userId\":1,\r\n    \"items\":[\r\n        {\r\n            \"productId\":1,\r\n            \"quantity\":1\r\n        }\r\n        ],\r\n        \"paymentMethod\":\"crypto\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/orders",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "orders"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "TC_Orders_007 Create order with invalid status",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Validate Status Code\", ()=>{\r",
+                  "    pm.response.to.have.status(400)\r",
+                  "})\r",
+                  "\r",
+                  "pm.test(\"Validate Error Message\", ()=>{\r",
+                  "    pm.expect(pm.response.json().error).to.eql(\"Invalid order status\")\r",
+                  "})"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"userId\":1,\r\n    \"items\":[\r\n        {\r\n            \"productId\":1,\r\n            \"quantity\":1\r\n            }\r\n        ],\r\n            \"paymentMethod\":\"card\",\r\n            \"status\":\"unknown\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/orders",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "orders"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "TC_Orders_008 Retrieve all Orders",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Validate Status Code\",()=>{\r",
+                  "    pm.expect(pm.response.code).to.eql(200)\r",
+                  "})\r",
+                  "\r",
+                  "pm.test(\"Validate Response is an Array\", ()=>{\r",
+                  "    pm.expect(pm.response.json()).to.be.an('array')\r",
+                  "})"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/orders",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "orders"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "TC_Orders_009 Retrieve order by valid ID",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status Code is 200\", ()=>{\r",
+                  "    pm.expect(pm.response.code).to.eql(200)\r",
+                  "})\r",
+                  "\r",
+                  "pm.test(\"Order ID is correct\", () => {\r",
+                  "    pm.expect(pm.response.json().id).to.eql(2)\r",
+                  "})"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/orders/2",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "orders",
+                "2"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "TC_Orders_010 Retrieve order by invalid ID",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status Code is 404 (Not Found)\", ()=>{\r",
+                  "    pm.expect(pm.response.code).to.eql(404)\r",
+                  "})\r",
+                  ""
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/orders/99",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "orders",
+                "99"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "TC_Orders_011 Filter orders by userId",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Validate Status Code\", ()=>{\r",
+                  "    pm.response.to.have.status(200);\r",
+                  "})\r",
+                  "\r",
+                  "pm.test(\"Response UserID is 2\",()=>{\r",
+                  "    const jsonData=pm.response.json();\r",
+                  "    jsonData.forEach(order => {\r",
+                  "        pm.expect(order.userId).to.eql(2);\r",
+                  "    })\r",
+                  "})"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/orders?userId=2",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "orders"
+              ],
+              "query": [
+                {
+                  "key": "userId",
+                  "value": "2"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "TC_Order_012 Filter orders by status delivered",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Validate Status Code\", ()=>{\r",
+                  "    pm.response.to.have.status(200);\r",
+                  "})\r",
+                  "\r",
+                  "pm.test(\"Response Status is Delivered\",()=>{\r",
+                  "    const jsonData=pm.response.json();\r",
+                  "    jsonData.forEach(order => {\r",
+                  "        pm.expect(order.status).to.eql(\"delivered\");\r",
+                  "    })\r",
+                  "})"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "GET",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/orders?status=delivered",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "orders"
+              ],
+              "query": [
+                {
+                  "key": "status",
+                  "value": "delivered"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "TC_Orders_013 Update order status to shipped",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Validate Status Code\", ()=>{\r",
+                  "    pm.expect(pm.response.code).to.eql(200)\r",
+                  "})\r",
+                  "\r",
+                  "pm.test(\"Validate Order Status\", () => {\r",
+                  "    pm.expect(pm.response.json().status).to.eql(\"shipped\")\r",
+                  "})"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "PATCH",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"status\":\"shipped\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/orders/2",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "orders",
+                "2"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "TC_Orders_014 Verify order total = subtotal + tax + shippingFee",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Validate Status Code\", ()=>{\r",
+                  "    pm.expect(pm.response.code).to.eql(200)\r",
+                  "})\r",
+                  "\r",
+                  "pm.test(\"Total should be Equal to SubTotal + Tax + Shipping Fee\",()=>{\r",
+                  "    pm.expect(pm.response.json().total).to.eql(pm.response.json().subtotal + pm.response.json().tax + pm.response.json().shippingFee)\r",
+                  "})"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/orders/2",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "orders",
+                "2"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "TC_Orders_015 Delete Non Existing Order",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Validate Status Code\", ()=>{\r",
+                  "    pm.expect(pm.response.code).to.eql(404)\r",
+                  "})\r",
+                  ""
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/orders/9999",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "orders",
+                "9999"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
     },
     {
       "name": "Reviews",

@@ -2025,11 +2025,1351 @@
     },
     {
       "name": "Reviews",
-      "item": []
+      "item": [
+        {
+          "name": "TC_Reviews_001 Submit review with valid data",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Validate Status Code\", ()=>{\r",
+                  "    pm.expect(pm.response.code).to.eql(201)\r",
+                  "})\r",
+                  "\r",
+                  "pm.test(\"UserId is Present\", ()=>{\r",
+                  "    pm.expect(pm.response.json().userId).to.not.eql(null)\r",
+                  "})"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"productId\":1,\r\n    \"userId\":2,\r\n    \"rating\":5,\r\n    \"title\":\"Amazing product!\",\r\n    \"body\":\"Really loved every bit of it.\",\r\n    \"verified\":true\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/reviews",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "reviews"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "TC_Reviews_002 Submit review without productId",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Validate Status Code\", ()=>{\r",
+                  "    pm.expect(pm.response.code).to.eql(400)\r",
+                  "})\r",
+                  "\r",
+                  "pm.test(\"Validate Response Body\", () => {\r",
+                  "    pm.expect(pm.response.json().error).to.eql(\"productId is required\")\r",
+                  "})"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"userId\":2,\r\n    \"rating\":5,\r\n    \"title\":\"Amazing product!\",\r\n    \"body\":\"Really loved every bit of it.\",\r\n    \"verified\":true\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/reviews",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "reviews"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "TC_Reviews_003 Submit review without userId",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Validate Status Code\", ()=>{\r",
+                  "    pm.expect(pm.response.code).to.eql(400)\r",
+                  "})\r",
+                  "\r",
+                  "pm.test(\"Validate Response Body\", () => {\r",
+                  "    pm.expect(pm.response.json().error).to.eql(\"userId is required\")\r",
+                  "})"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"productId\":1,\r\n    \"rating\":5,\r\n    \"title\":\"Amazing product!\",\r\n    \"body\":\"Really loved every bit of it.\",\r\n    \"verified\":true\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/reviews",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "reviews"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "TC_Reviews_004 Submit reviews without title",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Validate Status Code\", ()=>{\r",
+                  "    pm.expect(pm.response.code).to.eql(400)\r",
+                  "})\r",
+                  "\r",
+                  "pm.test(\"Validate Response Body\", () => {\r",
+                  "    pm.expect(pm.response.json().error).to.eql(\"Title is required\")\r",
+                  "})"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"productId\":1,\r\n    \"userId\":2,\r\n    \"rating\":5,\r\n    \"body\":\"Really loved every bit of it.\",\r\n    \"verified\":true\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/reviews",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "reviews"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "TC_Reviews_005 Submit review without body",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Validate Status Code\", ()=>{\r",
+                  "    pm.expect(pm.response.code).to.eql(400)\r",
+                  "})\r",
+                  "\r",
+                  "pm.test(\"Validate Response Body\", () => {\r",
+                  "    pm.expect(pm.response.json().error).to.eql(\"Body is required\")\r",
+                  "})"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"productId\":1,\r\n    \"userId\":2,\r\n    \"rating\":5,\r\n    \"title\":\"Amazing product!\",\r\n    \"verified\":true\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/reviews",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "reviews"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "TC_Reviews_006 Submit review with body less than 10 chars",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Validate Status Code\", ()=>{\r",
+                  "    pm.expect(pm.response.code).to.eql(400)\r",
+                  "})\r",
+                  "\r",
+                  "pm.test(\"Validate Response Body\", () => {\r",
+                  "    pm.expect(pm.response.json().error).to.eql(\"Review body must be at least 10 characters\")\r",
+                  "})"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"productId\":1,\r\n    \"userId\":2,\r\n    \"rating\":5,\r\n    \"title\":\"Amazing product!\",\r\n    \"body\":\"Good\",\r\n    \"verified\":true\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/reviews",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "reviews"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "TC_Reviews_007 Submit review with rating = 0",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Validate Status Code\", ()=>{\r",
+                  "    pm.expect(pm.response.code).to.eql(400)\r",
+                  "})\r",
+                  "\r",
+                  "pm.test(\"Validate Response Body\", () => {\r",
+                  "    pm.expect(pm.response.json().error).to.eql(\"Rating must be between 1 and 5\")\r",
+                  "})"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"productId\":1,\r\n    \"userId\":2,\r\n    \"rating\":0,\r\n    \"title\":\"Amazing product!\",\r\n    \"body\":\"Good\",\r\n    \"verified\":true\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/reviews",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "reviews"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "TC_Reviews_008 Submit review with rating > 5",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Validate Status Code\", ()=>{\r",
+                  "    pm.expect(pm.response.code).to.eql(400)\r",
+                  "})\r",
+                  "\r",
+                  "pm.test(\"Validate Response Body\", () => {\r",
+                  "    pm.expect(pm.response.json().error).to.eql(\"Rating must be between 1 and 5\")\r",
+                  "})"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"productId\":1,\r\n    \"userId\":2,\r\n    \"rating\":7,\r\n    \"title\":\"Amazing product!\",\r\n    \"body\":\"Good\",\r\n    \"verified\":true\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/reviews",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "reviews"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "TC_Reviews_009 Get all Reviews",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Validate Status Code\", ()=>{\r",
+                  "    pm.expect(pm.response.code).to.eql(200)\r",
+                  "})\r",
+                  "\r",
+                  "pm.test(\"Validate Response Body\", () => {\r",
+                  "    const jsonData = pm.response.json()\r",
+                  "    pm.expect(jsonData).to.be.an('array')\r",
+                  "})"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/reviews",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "reviews"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "TC_Reviews_010 Retrieve review by valid ID",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Validate Status Code\", ()=>{\r",
+                  "    pm.response.to.have.status(200);\r",
+                  "})\r",
+                  "\r",
+                  "pm.test(\"Validate ID=1 in Response\", ()=>{\r",
+                  "    pm.expect(pm.response.json().id).to.eql(1);\r",
+                  "})"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/reviews/1",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "reviews",
+                "1"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "TC_Reviews_011 Retrieve review by invalid ID",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Validate Status Code\", ()=>{\r",
+                  "    pm.expect(pm.response.code).to.eql(404)\r",
+                  "})\r",
+                  ""
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/reviews/999",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "reviews",
+                "999"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "TC_Reviews_012 Filter reviews by productId",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Validate Response ProductID is 5\", ()=>{\r",
+                  "    const jsonData=pm.response.json();\r",
+                  "    jsonData.forEach((reviews)=>{ \r",
+                  "        pm.expect(reviews.productId).to.eql(5) \r",
+                  "    })\r",
+                  "})"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/reviews?productId=5",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "reviews"
+              ],
+              "query": [
+                {
+                  "key": "productId",
+                  "value": "5"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "TC_Review_013 Filter reviews by rating=5",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Validate Response ProductID is 5\", ()=>{\r",
+                  "    const jsonData=pm.response.json();\r",
+                  "    jsonData.forEach((reviews)=>{ \r",
+                  "        pm.expect(reviews.rating).to.eql(5) \r",
+                  "    })\r",
+                  "})"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/reviews?rating=5",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "reviews"
+              ],
+              "query": [
+                {
+                  "key": "rating",
+                  "value": "5"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "TC_Reviews_014 Update review body",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"validate Status Code\", ()=>{\r",
+                  "    pm.expect(pm.response.code).to.eql(200)\r",
+                  "})\r",
+                  "\r",
+                  "pm.test(\"Response Body is Updated\", ()=>{\r",
+                  "    pm.expect(pm.response.json().body).to.contain(\"Updated review — still highly recommended product.\")\r",
+                  "})"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "PATCH",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"body\":\"Updated review — still highly recommended product.\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/reviews/1",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "reviews",
+                "1"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "TC_Reviews_015 Delete existing review",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Validate Status Code\", ()=>{\r",
+                  "    pm.expect(pm.response.code).to.eql(200) \r",
+                  "})\r",
+                  ""
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/reviews/7",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "reviews",
+                "7"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "TC_Reviews_016 Verify ID is Deleted Successfully",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Validate Response Code\", ()=>{\r",
+                  "    pm.response.to.have.status(404)\r",
+                  "})"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/reviews/7",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "reviews",
+                "7"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
     },
     {
       "name": "Carts",
-      "item": []
+      "item": [
+        {
+          "name": "TC_Cart_001 Create cart with valid data",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Validate Status Code\", ()=>{\r",
+                  "    pm.expect(pm.response.code).to.eql(201)\r",
+                  "})\r",
+                  "\r",
+                  "pm.test(\"Validate User ID\", () => {\r",
+                  "    pm.expect(pm.response.json().userId).to.not.eql(null)\r",
+                  "})"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"userId\":10,\r\n    \"items\":[\r\n        {\r\n            \"productId\":1,\r\n            \"quantity\":10\r\n        }\r\n    ]\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/carts",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "carts"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "TC_Cart_002 Create cart without userId",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Validate Status Code\", ()=>{\r",
+                  "    pm.expect(pm.response.code).to.eql(400)\r",
+                  "})\r",
+                  "\r",
+                  "pm.test(\"Validate Error Message\", () => {\r",
+                  "    pm.expect(pm.response.json().error).to.eql(\"userId is required\")\r",
+                  "})"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"items\":[\r\n        {\r\n            \"productId\":1,\r\n            \"quantity\":10\r\n        }\r\n    ]\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/carts",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "carts"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "TC_Cart_003 Create cart without items",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Validate Status Code\", ()=>{\r",
+                  "    pm.expect(pm.response.code).to.eql(400)\r",
+                  "})\r",
+                  "\r",
+                  "pm.test(\"Validate Error Message\", () => {\r",
+                  "    pm.expect(pm.response.json().error).to.eql(\"Items are required\")\r",
+                  "})"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"userId\":10\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/carts",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "carts"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "TC_Cart_004 Create cart with item quantity = 0",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Validate Status Code\", ()=>{\r",
+                  "    pm.expect(pm.response.code).to.eql(400)\r",
+                  "})\r",
+                  "\r",
+                  "pm.test(\"Validate Error Message\", () => {\r",
+                  "    pm.expect(pm.response.json().error).to.eql(\"Item quantity must be at least 1\")\r",
+                  "})\r",
+                  ""
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"userId\":10,\r\n    \"items\":[\r\n        {\r\n            \"productId\":1,\r\n            \"quantity\":0\r\n        }\r\n    ]\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/carts",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "carts"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "TC_Cart_005 Create cart with item missing productId",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Validate Status Code\", ()=>{\r",
+                  "    pm.expect(pm.response.code).to.eql(400)\r",
+                  "})\r",
+                  "\r",
+                  "pm.test(\"Validate Error Message\", () => {\r",
+                  "    pm.expect(pm.response.json().error).to.eql(\"Each item must have a productId\")\r",
+                  "})"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"userId\":10,\r\n    \"items\":[\r\n        {\r\n            \"quantity\":10\r\n        }\r\n    ]\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/carts",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "carts"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "TC_Cart_006 Retrieve all carts",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Validate Status Code\", ()=>{\r",
+                  "    pm.expect(pm.response.code).to.eql(200)\r",
+                  "})\r",
+                  "\r",
+                  "pm.test(\"Response is an Array\", ()=>{\r",
+                  "    pm.expect(pm.response.json()).to.be.an('array')\r",
+                  "})\r",
+                  ""
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "GET",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/carts",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "carts"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "TC_Cart_007 Retrieve cart by valid ID",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Validate Status Code\", ()=>{\r",
+                  "    pm.expect(pm.response.code).to.eql(200)\r",
+                  "})\r",
+                  "\r",
+                  "pm.test(\"Validate ID is Correct\", ()=>{\r",
+                  "    pm.expect(pm.response.json().id).to.eql(1)\r",
+                  "})"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/carts/1",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "carts",
+                "1"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "TC_Cart_008 Retrieve cart by invalid ID",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Validate Status Code\", ()=>{\r",
+                  "    pm.expect(pm.response.code).to.eql(404)\r",
+                  "})"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/carts/99",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "carts",
+                "99"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "TC_Cart_009 Filter cart by userId",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Validate Status Code\", ()=>{\r",
+                  "    pm.expect(pm.response.code).to.eql(200)\r",
+                  "})\r",
+                  "\r",
+                  "pm.test(\"Validate UserID in Response is 2\", () => {\r",
+                  "    const jsonData = pm.response.json()\r",
+                  "    jsonData.forEach( (cart)=>{\r",
+                  "        pm.expect(cart.userId).to.eql(2)\r",
+                  "    })\r",
+                  "\r",
+                  "})"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/carts?userId=2",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "carts"
+              ],
+              "query": [
+                {
+                  "key": "userId",
+                  "value": "2"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "TC_Cart_010 Add item to existing cart",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Validate Status Code\", ()=>{\r",
+                  "    pm.expect(pm.response.code).to.eql(200)\r",
+                  "})\r",
+                  "\r",
+                  "pm.test(\"Validate Items Added\", ()=>{\r",
+                  "    pm.expect(pm.response.json().items.length).to.eql(2)\r",
+                  "})"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "PATCH",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"items\":[\r\n        {\r\n            \"productId\":1,\r\n            \"quantity\":1\r\n        },\r\n        {\"productId\":3,\r\n        \"quantity\":2}\r\n        ]\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/carts/2",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "carts",
+                "2"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "TC_Cart_011 Update item quantity in cart",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"validate Status Code\",()=>{\r",
+                  "    pm.expect(pm.response.code).to.eql(200)\r",
+                  "})\r",
+                  "\r",
+                  "pm.test(\"Validate Quantity is 100\", ()=>{\r",
+                  "    pm.expect(pm.response.json().items[0].quantity).to.eql(100)\r",
+                  "})"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "PATCH",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"items\":[\r\n        {\r\n            \"productId\":1,\r\n            \"quantity\":100\r\n        }\r\n        ]\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/carts/2",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "carts",
+                "2"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "TC_Cart_012 Clear all items from cart",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Validate Status Code\", ()=>{\r",
+                  "    pm.expect(pm.response.code).to.eql(200)\r",
+                  "})\r",
+                  "\r",
+                  "pm.test(\"Validate Item is Cleared from Cart\", ()=>{\r",
+                  "    pm.expect(pm.response.json().items).to.eql([])\r",
+                  "})"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "PATCH",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"items\":[]\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/carts/2",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "carts",
+                "2"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "TC_Cart_013 Replace Entire Cart",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Validate Status Code\", ()=>{\r",
+                  "    pm.expect(pm.response.code).to.eql(200)\r",
+                  "})\r",
+                  "\r",
+                  "pm.test(\"Entire Cart is Updated\", ()=>{\r",
+                  "    pm.expect(pm.response.json().items[0].productId).to.eql(6)\r",
+                  "    pm.expect(pm.response.json().items[0].quantity).to.eql(1)\r",
+                  "})"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"userId\":1,\r\n    \"items\":[\r\n        {\r\n            \"productId\":6,\r\n            \"quantity\":1\r\n        }\r\n    ],\r\n    \"updatedAt\": \"{{$isoTimestamp}}\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/carts/2",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "carts",
+                "2"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "TC_Cart_014 Delete existing cart",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Validate Status Code\", ()=>{\r",
+                  "    pm.expect(pm.response.code).to.eql(200)\r",
+                  "})"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/carts/1",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "carts",
+                "1"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "TC_Cart_015 Validate User is Deleted Successfully with GET request",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Validate Status Code\", ()=>{\r",
+                  "    pm.expect(pm.response.code).to.eql(404)\r",
+                  "})"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/carts/1",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "carts",
+                "1"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "TC_Cart_016 Delete Non-Existing User",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Validate Status Code\", ()=>{\r",
+                  "    pm.expect(pm.response.code).to.eql(404)\r",
+                  "})"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/carts/999",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "carts",
+                "999"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
     },
     {
       "name": "Coupons",
